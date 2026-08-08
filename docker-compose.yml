@@ -1,0 +1,30 @@
+services:
+  frontend:
+    build: ./services/frontend
+    container_name: app_frontend
+    ports:
+      -  "${FRONTEND_PORT}:${FRONTEND_PORT}"
+    environment:
+      API_URL: http://backend:8000
+
+  backend:
+    build: ./services/backend
+    container_name: app_backend
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+    environment:
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@database:5432/${DB_NAME}
+
+  database:
+    image: postgres:16
+    container_name: app_db
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+volumes:
+    db_data:
