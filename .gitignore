@@ -1,5 +1,4 @@
 # Environment variables
-.gitignore
 .env
 
 # Python
